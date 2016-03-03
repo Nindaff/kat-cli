@@ -39,21 +39,20 @@ describe('Query', function() {
   })
 
   it('lifecycle', () => {
-    let query = new Query({ query: 'test' })
+    let query = new Query({ query: 'Unit Testing' })
     return query.next()
-      .then((results) => {
-        results.length.should.equal(25)
-        let firstFirstName = results[0].name
-
+      .then((torrents) => {
+        torrents.length.should.equal(25)
+        let firstFirstName = torrents[0].name
         return query.prev()
-          .then((results) => {
-            results[0].name.should.equal(firstFirstName)
+          .then((torrents) => {
+            torrents[0].name.should.equal(firstFirstName)
             return query.next()
           })
-          .then((results) => {
-            results[0].name.should.not.equal(firstFirstName)
+          .then((torrents) => {
+            torrents[0].name.should.not.equal(firstFirstName)
             query.destroy()
-            should(query.results).equal(null)
+            should(query.torrents).equal(null)
             should(query.options).equal(null)
             query._alive.should.equal(false)
             return query.next()
